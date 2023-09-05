@@ -15,7 +15,7 @@ class SiswaSeeder extends Seeder
     {
         $datas = [
             [
-                'name' => 'Panji',
+                'name' => 'Puji',
                 'nisn' => '9123456789',
                 'nis' => '9123456778',
                 'kelas_id' => '1',
@@ -33,7 +33,7 @@ class SiswaSeeder extends Seeder
                 'user_id' => '2',
             ],
             [
-                'name' => 'Puji',
+                'name' => 'Panji',
                 'nisn' => '9323456777',
                 'nis' => '9323456776',
                 'kelas_id' => '3',

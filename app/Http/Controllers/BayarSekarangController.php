@@ -35,21 +35,20 @@ class BayarSekarangController extends Controller
             'kelas_id' => 'required',
             'spp_id' => 'required',
             'tanggal_bayar' => 'required',
-            'status' => 'required',
+            // 'status' => 'required',
         ]);
         $user = User::find($input['user_id']);
         if (!$user) {
             abort(404);
         }
 
-        $kelas = Kelas::find($input['kelas_id']);
-        if (!$kelas) {
-            abort(404);
-        }
         $spp = Spp::find($input['spp_id']);
         if (!$spp) {
             abort(404);
         }
+
+
+        $input['status'] = "Unpaid";
 
         // return dd(json_encode($input));
         BayarSekarang::create($input);

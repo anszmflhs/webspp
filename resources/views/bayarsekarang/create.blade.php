@@ -1,3 +1,7 @@
+@php
+    use App\Models\Siswa;
+@endphp
+
 @extends('layouts.master')
 
 @section('content')
@@ -7,52 +11,52 @@
 
         <h1 class="h3 mb-2 text-gray-800">Tambah Data Pembayaran</h1>
         <a href="{{ route('bayarsekarang.index') }}" class="btn btn-primary">Back</a>
-
+        @php
+            $dataSiswa =  Siswa::where('id', auth()->user()->siswa->id)->first();
+        @endphp
         <div class="card-body">
             <form method="POST" action="{{ route('bayarsekarang.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="user_create">Name:</label>
-                    <select class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                        id="user_create">
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ ucwords($user->siswa->name) }}</option>
-                        @endforeach
-                    </select>
-                    @error('user_id')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+
+                    @foreach ($users as $user)
+                        @if ($user->id === auth()->user()->id)
+                            {{-- <label for="user_create{{ $user->id }}">Name:</label> --}}
+                            <input type="text" class="form-control" id="user_create" name="user_id" hidden
+                                value="{{ auth()->user()->siswa->id }}">
+                            <br>
+                        @endif
+                    @endforeach
                 </div>
                 <div class="form-group">
-                    <label for="nis_create">NIS:</label>
-                    <select class="form-control
-                        id="nis_create">
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ ucwords($user->siswa->nis) }}</option>
-                        @endforeach
-                    </select>
-                    @error('user_id')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="kelas_create">Jurusan:</label>
-                    <select class="form-control @error('kelas_id') is-invalid @enderror" name="kelas_id"
-                        id="kelas_create">
+                    {{-- <label for="kelas_create">Jurusan:</label> --}}
+                    <select class="form-control @error('kelas_id') is-invalid @enderror" name="kelas_id" id="kelas_create" hidden >
                         @foreach ($kelas as $kls)
-                            <option value="{{ $kls->id }}">{{ ucwords($kls->jurusan) }}</option>
+                            @if ($kls->id == $dataSiswa->kelas_id)
+                                <option value="{{ $kls->id }}">{{ ucwords($kls->jurusan) }}</option>
+                            @endif
+
                         @endforeach
                     </select>
+
+                    {{-- @foreach ($kelas as $kls)
+                        @if ($kls->kelas_id == $dataSiswa->kelas_id)
+                            <input type="text" class="form-control" name="kelas_id" id="kelas_create" value="{{ $kls->id }}">
+                        @endif
+
+                    @endforeach
                     @error('kelas_id')
                         <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror --}}
                 </div>
                 <div class="form-group">
                     <label for="spp_create">Nominal:</label>
-                    <select class="form-control @error('spp_id') is-invalid @enderror" name="spp_id"
-                        id="spp_create">
+                    <select class="form-control @error('spp_id') is-invalid @enderror" name="spp_id" id="spp_create" @readonly(true)>
                         @foreach ($spps as $nominals)
+                            @if ($nominals->kelas_id == $dataSiswa->kelas_id )
                             <option value="{{ $nominals->id }}">{{ ucwords($nominals->nominal) }}</option>
+                            @endif
+
                         @endforeach
                     </select>
                     @error('kelas_id')
@@ -67,16 +71,13 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="status_create">Status:</label>
-                    <select class="form-control @error('status') is-invalid @enderror" name="status">
-                        <option value="unpaid">Unpaid</option>
-                    </select>
-
+                    <input type="text" class="form-control" id="status_create" name="status" value="Unpaid" readonly>
                     @error('status')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save fa-fw"></i> SIMPAN
