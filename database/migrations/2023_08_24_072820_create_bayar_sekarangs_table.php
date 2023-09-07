@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('kelas_id')->constrained('kelas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('spp_id')->constrained('spps')->onUpdate('cascade')->onDelete('cascade');
             $table->date('tanggal_bayar');
+            $table->string('bukti_pembayaran')->nullable();
             $table->string('status');
             $table->timestamps();
         });

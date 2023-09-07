@@ -27,6 +27,7 @@
                                 <th>Jurusan</th>
                                 <th>Nominal</th>
                                 <th>Tanggal Bayar</th>
+                                <th>Bukti Pembayaran</th>
                                 <th>Status</th>
                                 {{-- <th>Action</th> --}}
                             </tr>

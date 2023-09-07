@@ -35,8 +35,18 @@ class BayarSekarangController extends Controller
             'kelas_id' => 'required',
             'spp_id' => 'required',
             'tanggal_bayar' => 'required',
+            'bukti_pembayaran' => 'required',
             // 'status' => 'required',
         ]);
+
+        $this->validateReq($request, false);
+        if ($request->hasFile('bukti_pembayaran')) {
+            $file = $request->file('bukti_pembayaran');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('uploads/bukti_pembayaran/', $fileName);
+            $input['bukti_pembayaran'] = $fileName;
+        }
         $user = User::find($input['user_id']);
         if (!$user) {
             abort(404);
@@ -47,12 +57,29 @@ class BayarSekarangController extends Controller
             abort(404);
         }
 
-
         $input['status'] = "Unpaid";
 
         // return dd(json_encode($input));
         BayarSekarang::create($input);
         Permintaan::create($input);
         return redirect()->route('bayarsekarang.index')->with('success', 'Data berhasil ditambahkan');
+    }
+    private function validateReq(Request $req, bool $isUpdate)
+    {
+        if ($isUpdate) {
+            $req->validate(
+                [
+                    'tanggal_bayar' => 'required|date',
+                    'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
+                ]
+            );
+        } else {
+            $req->validate(
+                [
+                    'tanggal_bayar' => 'required|date',
+                    'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
+                ]
+            );
+        }
     }
 }

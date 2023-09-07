@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\CommonDatatable;
+use App\Common\CommonFunction;
 use App\Models\BayarSekarang;
 use App\Models\Kelas;
 use App\Models\Permintaan;
@@ -30,30 +31,40 @@ class PermintaanController extends Controller
     }
     public function store(Request $request)
     {
-        $input = $request->all();
+        $inputPermintaan = $request->all();
         $request->validate([
             'user_id' => 'required',
             'kelas_id' => 'required',
             'spp_id' => 'required',
             'tanggal_bayar' => 'required',
+            'bukti_pembayaran' => 'required',
             'status' => 'required',
         ]);
-        $user = User::find($input['user_id']);
+        $user = User::find($inputPermintaan['user_id']);
         if (!$user) {
             abort(404);
         }
 
-        $kelas = Kelas::find($input['kelas_id']);
+        $kelas = Kelas::find($inputPermintaan['kelas_id']);
         if (!$kelas) {
             abort(404);
         }
-        $spp = Spp::find($input['spp_id']);
+        $spp = Spp::find($inputPermintaan['spp_id']);
         if (!$spp) {
             abort(404);
         }
 
+        $this->validateReq($request, false);
+        if ($request->hasFile('bukti_pembayaran')) {
+            $file = $request->file('bukti_pembayaran');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('uploads/bukti_pembayaran/', $fileName);
+            $inputPermintaan['bukti_pembayaran'] = $fileName;
+        }
+
         // return dd(json_encode($input));
-        Permintaan::create($input);
+        Permintaan::create($inputPermintaan);
         return redirect()->route('permintaan.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit($id)
@@ -76,9 +87,20 @@ class PermintaanController extends Controller
         ]);
 
         // Find the Permintaan record and update it
-        $permintaan = $this->validateFind($id);
+        $permintaans = $this->validateFind($id);
         $this->validateReq($request, true);
-        $permintaan->update($inputPermintaan);
+
+        if ($request->hasFile('photo')) {
+            $path = 'uploads/bukti_pembayaran/' . $permintaans->bukti_pembayaran;
+            CommonFunction::deleteImage($path);
+            $file = $request->file('photo');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('uploads/bukti_pembayaran/', $fileName);
+            $inputPermintaan['bukti_pembayaran'] = $fileName;
+        }
+        $this->validateReq($request, true);
+        $permintaans->update($inputPermintaan);
 
         // Now, update the related BayarSekarang record
         $bayarsekarang = BayarSekarang::where('id', $id)->first();
@@ -90,8 +112,10 @@ class PermintaanController extends Controller
     }
     public function destroy($id)
     {
-        $permintaans = Permintaan::find($id);
-        $permintaans->delete();
+        $permintaan = Permintaan::find($id);
+        $path = 'uploads/bukti_pembayaran/' . $permintaan->bukti_pembayaran;
+        CommonFunction::deleteImage($path);
+        $permintaan->delete();
         return response()->json([
             'message' => 'Data berhasil dihapus'
         ]);
@@ -112,6 +136,7 @@ class PermintaanController extends Controller
             $req->validate(
                 [
                     'tanggal_bayar' => 'required|date',
+                    'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                     'status' => 'required|string|in:paid,unpaid',
                 ]
             );
@@ -119,6 +144,7 @@ class PermintaanController extends Controller
             $req->validate(
                 [
                     'tanggal_bayar' => 'required|date',
+                    'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                     'status' => 'required|string|in:paid,unpaid',
                 ]
             );

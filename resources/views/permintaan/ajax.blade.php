@@ -24,6 +24,32 @@
                     data: 'tanggal_bayar',
                 },
                 {
+                    data: 'bukti_pembayaran',
+                    render: function(data, type) {
+                        const regex = /^(http|https):\/\//g
+                        let src = '';
+
+                        if (data == null) {
+                            src =
+                                'http://127.0.0.1:8000/images/no-image.jpg';
+                        } else {
+
+                            if (data.match(regex)) {
+
+                                src = data;
+                            } else {
+                                const host = 'http://127.0.0.1:8000/uploads/bukti_pembayaran/';
+                                src = host + data;
+                            }
+                        }
+
+                        if (type === 'display') {
+                            return '<img src="' + src + '"' + 'width="50" height="50">';
+                        }
+                        return src;
+                    }
+                },
+                {
                     data: 'status'
                 },
                 {

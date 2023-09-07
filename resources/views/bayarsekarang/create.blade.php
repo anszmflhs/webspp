@@ -71,6 +71,14 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label for="bukti_pembayaran_create">Bukti Pembayaran:</label>
+                    <input type="file" name="bukti_pembayaran" id="bukti_pembayaran_create"
+                        class="form-control @error('bukti_pembayaran') is-invalid @enderror">
+                    @error('bukti_pembayaran')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
                 {{-- <div class="form-group">
                     <label for="status_create">Status:</label>
                     <input type="text" class="form-control" id="status_create" name="status" value="Unpaid" readonly>
