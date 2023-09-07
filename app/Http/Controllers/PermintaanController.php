@@ -11,6 +11,7 @@ use App\Models\Siswa;
 use App\Models\Spp;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PermintaanController extends Controller
 {
@@ -75,43 +76,62 @@ class PermintaanController extends Controller
         $spps = Spp::all();
         return view('permintaan.edit', compact('permintaans', 'users', 'kelas', 'spps'));
     }
-    public function update(Request $request, $id)
-    {
-        $inputPermintaan = $request->all();
-        $request->validate([
-            'user_id' => 'required',
-            'kelas_id' => 'required',
-            'spp_id' => 'required',
-            'tanggal_bayar' => 'required',
-            'status' => 'required',
-        ]);
+
+        // $inputPermintaan = $request->all();
+        // $request->validate([
+        //     'user_id' => 'required',
+        //     'kelas_id' => 'required',
+        //     'spp_id' => 'required',
+        //     'tanggal_bayar' => 'required',
+        //     'bukti_pembayaran' => 'required',
+        //     'status' => 'required',
+        // ]);
 
         // Find the Permintaan record and update it
-        $permintaans = $this->validateFind($id);
-        $this->validateReq($request, true);
+        // $permintaans = $this->validateFind($id);
+        // $this->validateReq($request, true);
 
-        if ($request->hasFile('photo')) {
-            $path = 'uploads/bukti_pembayaran/' . $permintaans->bukti_pembayaran;
-            CommonFunction::deleteImage($path);
-            $file = $request->file('photo');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move('uploads/bukti_pembayaran/', $fileName);
-            $inputPermintaan['bukti_pembayaran'] = $fileName;
+        // if ($request->hasFile('photo')) {
+        //     $path = 'uploads/bukti_pembayaran/' . $permintaans->bukti_pembayaran;
+        //     CommonFunction::deleteImage($path);
+        //     $file = $request->file('photo');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $fileName = time() . '.' . $extension;
+        //     $file->move('uploads/bukti_pembayaran/', $fileName);
+        //     $inputPermintaan['bukti_pembayaran'] = $fileName;
+        // }
+        // $this->validateReq($request, true);
+        // $permintaans->update($inputPermintaan);
+
+        // $bayarsekarang = BayarSekarang::where('id', $id)->first();
+        // if ($bayarsekarang) {
+        //     $bayarsekarang->update($inputPermintaan);
+        // }
+
+        // return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
+
+        public function update(Request $request, permintaan $permintaan, $id)
+        {
+        if (empty($request->file('bukti_pembayaran'))) {
+            $permintaan::find($id)->update([
+                'tanggal_bayar' => $request->tanggal_bayar,
+                'status' => $request->status,
+            ]);
+            return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
         }
-        $this->validateReq($request, true);
-        $permintaans->update($inputPermintaan);
-
-        // Now, update the related BayarSekarang record
-        $bayarsekarang = BayarSekarang::where('id', $id)->first();
-        if ($bayarsekarang) {
-            $bayarsekarang->update($inputPermintaan);
-        }
-
-        return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
     }
+
     public function destroy($id)
     {
+        // $bayarsekarang = BayarSekarang::where('id', $id)->first();
+        // if ($bayarsekarang) {
+        //     $bayarsekarang->update($inputPermintaan);
+        // }
+        // $permintaan = Permintaan::find($id);
+        $bayarsekarang = BayarSekarang::where('id', $id)->first();;
+        if ($bayarsekarang) {
+            $bayarsekarang->delete($bayarsekarang);
+        }
         $permintaan = Permintaan::find($id);
         $path = 'uploads/bukti_pembayaran/' . $permintaan->bukti_pembayaran;
         CommonFunction::deleteImage($path);
