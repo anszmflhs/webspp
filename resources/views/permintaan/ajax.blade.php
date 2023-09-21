@@ -20,9 +20,9 @@
                 {
                     data: 'spp.nominal'
                 },
-                {
-                    data: 'tanggal_bayar',
-                },
+                // {
+                //     data: 'tanggal_bayar',
+                // },
                 {
                     data: 'bukti_pembayaran',
                     render: function(data, type) {

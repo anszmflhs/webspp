@@ -39,11 +39,10 @@ class AuthController extends Controller
 
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
-            // return response()->json([
-            //     'status' => false,
-            //     'message' => $validator->errors()
-            // ], 400);
-            return view('/admin');
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()
+            ], 400);
         }
 
         $credentials = $request->only(['email', 'password']);
@@ -51,6 +50,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+            // return redirect('/dashboard')->with('success', 'Login Sucesess');
             $token = $user->createToken('authToken')->plainTextToken;
 
             $response = [
@@ -59,19 +59,18 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'siswa' => $user->siswa
             ];
-            // return response()->json([
-            //     'status' => true,
-            //     'access_token' => $token,
-            //     'data' => $response,
-            // ]);
-            return view('/welcome');
+            return response()->json([
+                'status' => true,
+                'access_token' => $token,
+                'data' => $response,
+            ]);
         }
         // return redirect('/login')->with('failed', 'Login Failed');
-        // return response()->json([
-        //     'status' => false,
-        //     'message' => 'login gagal: email atau password tidak valid'
-        // ], 401);
-        return view('/welcome');
+        return response()->json([
+            'status' => false,
+            'message' => 'login gagal: email atau password tidak valid'
+        ], 401);
+
     }
     public function logoutUser(Request $req)
     {

@@ -57,14 +57,14 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="tanggal_bayar_create">Tanggal Bayar:</label>
                             <input type="date" class="form-control @error('tanggal_bayar') is-invalid @enderror"
                                 name="tanggal_bayar">
                             @error('tanggal_bayar')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="bukti_pembayaran_create">Bukti Pembayaran:</label>
                             <input type="file" name="bukti_pembayaran" id="bukti_pembayaran_create"

@@ -20,6 +20,42 @@ class BayarSekarangController extends Controller
         }
         return view('bayarsekarang.index');
     }
+    // public function indexs()
+    // {
+    //     $bayarsekarang = BayarSekarang::all();
+    //     return response()->json(
+    //         [
+    //             'status' => true,
+    //             'data' => $bayarsekarang,
+    //         ]
+    //     );
+    // }
+
+    public function indexs()
+    {
+        $userId = auth()->user()->id;
+        $bayarsekarangs = BayarSekarang::with(['user.siswa', 'kelas', 'spp'])
+        ->where('user_id', $userId)
+        ->orderBy('id','desc')->get();
+        return response()->json(
+            [
+                'status' => true,
+                'data' => $bayarsekarangs,
+            ]
+        );
+    }
+
+    public function creates(Request $request)
+    {
+        $data = $request->all();
+        $bayarsekarang = BayarSekarang::create($data);
+        $bayarsekarang = Permintaan::create($data);
+
+        return response()->json([
+            'status' => true,
+            'data' => $bayarsekarang,
+        ]);
+    }
     public function create()
     {
         $users = User::all();
@@ -34,7 +70,6 @@ class BayarSekarangController extends Controller
             'user_id' => 'required',
             'kelas_id' => 'required',
             'spp_id' => 'required',
-            'tanggal_bayar' => 'required',
             'bukti_pembayaran' => 'required',
             // 'status' => 'required',
         ]);
@@ -69,14 +104,12 @@ class BayarSekarangController extends Controller
         if ($isUpdate) {
             $req->validate(
                 [
-                    'tanggal_bayar' => 'required|date',
                     'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                 ]
             );
         } else {
             $req->validate(
                 [
-                    'tanggal_bayar' => 'required|date',
                     'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                 ]
             );

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spps', function (Blueprint $table) {
             $table->id();
-            $table->integer('nominal');
+            $table->string('nominal');
             $table->foreignId('kelas_id')->constrained('kelas')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

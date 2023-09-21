@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 06, 2023 at 08:46 AM
+-- Host: localhost
+-- Generation Time: Sep 09, 2023 at 04:32 PM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `laravel`
+-- Database: `answbp`
 --
 
 -- --------------------------------------------------------
@@ -45,9 +45,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `contact`, `hire_date`, `gender`, `address`, `photo`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Purno', '092309293', '2023-09-06', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 1, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, 'Tarno', '0829292', '2023-09-06', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 2, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, 'Wati', '0627221', '2023-09-06', 'P', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 3, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, 'Purno', '092309293', '2023-09-09', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 1, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'Tarno', '0829292', '2023-09-09', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 2, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'Wati', '0627221', '2023-09-09', 'P', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 3, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -61,6 +61,7 @@ CREATE TABLE `bayar_sekarangs` (
   `kelas_id` bigint(20) UNSIGNED NOT NULL,
   `spp_id` bigint(20) UNSIGNED NOT NULL,
   `tanggal_bayar` date NOT NULL,
+  `bukti_pembayaran` varchar(255) DEFAULT NULL,
   `status` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -101,9 +102,9 @@ CREATE TABLE `kelas` (
 --
 
 INSERT INTO `kelas` (`id`, `jurusan`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'RPL', 1, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, 'TKJ', 2, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, 'DMM', 3, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, 'RPL', 1, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'TKJ', 2, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'DMM', 3, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -205,6 +206,7 @@ CREATE TABLE `permintaans` (
   `kelas_id` bigint(20) UNSIGNED NOT NULL,
   `spp_id` bigint(20) UNSIGNED NOT NULL,
   `tanggal_bayar` date NOT NULL,
+  `bukti_pembayaran` varchar(255) DEFAULT NULL,
   `status` enum('paid','unpaid') NOT NULL DEFAULT 'unpaid',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -229,26 +231,26 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'create-role', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(2, 'read-role', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(3, 'update-role', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(4, 'delete-role', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(5, 'create-admin', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(6, 'read-admin', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(7, 'update-admin', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(8, 'delete-admin', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(9, 'create-petugas', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(10, 'read-petugas', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(11, 'update-petugas', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(12, 'delete-petugas', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(13, 'create-siswa', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(14, 'read-siswa', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(15, 'update-siswa', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(16, 'delete-siswa', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(17, 'create-pembayaran', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(18, 'read-pembayaran', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(19, 'update-pembayaran', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(20, 'delete-pembayaran', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55');
+(1, 'create-role', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'read-role', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'update-role', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(4, 'delete-role', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(5, 'create-admin', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(6, 'read-admin', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(7, 'update-admin', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(8, 'delete-admin', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(9, 'create-petugas', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(10, 'read-petugas', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(11, 'update-petugas', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(12, 'delete-petugas', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(13, 'create-siswa', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(14, 'read-siswa', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(15, 'update-siswa', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(16, 'delete-siswa', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(17, 'create-pembayaran', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(18, 'read-pembayaran', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(19, 'update-pembayaran', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(20, 'delete-pembayaran', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -293,9 +295,9 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id`, `name`, `contact`, `hire_date`, `gender`, `address`, `photo`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ahmad', '092309293', '2023-09-06', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 1, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, 'Udin', '0829292', '2023-09-06', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 2, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, 'Jainab', '0627221', '2023-09-06', 'P', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 3, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, 'Ahmad', '092309293', '2023-09-09', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 1, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'Udin', '0829292', '2023-09-09', 'L', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 2, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'Jainab', '0627221', '2023-09-09', 'P', 'Indonesia', 'https://indonesiaexpat.id/wp-content/uploads/2017/10/img_6172.jpg', 3, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -316,9 +318,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(2, 'petugas', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55'),
-(3, 'siswa', 'web', '2023-09-05 23:45:55', '2023-09-05 23:45:55');
+(1, 'admin', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'petugas', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'siswa', 'web', '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -381,9 +383,9 @@ CREATE TABLE `siswas` (
 --
 
 INSERT INTO `siswas` (`id`, `nisn`, `name`, `nis`, `alamat`, `no_telp`, `user_id`, `kelas_id`, `created_at`, `updated_at`) VALUES
-(1, '9123456789', 'Puji', '9123456778', 'Indonesia', '013433', 1, 1, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, '9223456788', 'Punjul', '9223456777', 'Indonesia', '08425', 2, 2, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, '9323456777', 'Panji', '9323456776', 'Indonesia', '07674', 3, 3, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, '9123456789', 'Puji', '9123456778', 'Indonesia', '013433', 1, 1, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, '9223456788', 'Punjul', '9223456777', 'Indonesia', '08425', 2, 2, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, '9323456777', 'Panji', '9323456776', 'Indonesia', '07674', 3, 3, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -404,9 +406,9 @@ CREATE TABLE `spps` (
 --
 
 INSERT INTO `spps` (`id`, `nominal`, `kelas_id`, `created_at`, `updated_at`) VALUES
-(1, 250000, 1, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, 200000, 2, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, 150000, 3, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, 250000, 1, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 200000, 2, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 150000, 3, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 -- --------------------------------------------------------
 
@@ -430,9 +432,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Purno', 'admin@gmail.com', NULL, '$2y$10$uJpMdxEs0NlkqAYzPHIwcO3l9ZSmHlxPCYNm0GRgEE.V7zAnIQYMK', NULL, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(2, 'Ahmad', 'petugas@gmail.com', NULL, '$2y$10$VQ8/QyFBsCbynoRGcIl8iOGzJzoTkLGzS6ConW9WscDxW0Atqaklq', NULL, '2023-09-05 23:45:56', '2023-09-05 23:45:56'),
-(3, 'Panji', 'siswa@gmail.com', NULL, '$2y$10$PwVKb9nUILkJlll7m6R2VOLzca7Sef6PDzhEkEiGT.MtRqof9PSHy', NULL, '2023-09-05 23:45:56', '2023-09-05 23:45:56');
+(1, 'Purno', 'admin@gmail.com', NULL, '$2y$10$RNvQUQgWeKxc6nbNsydfz.GkYAA8yKRo3wpL0NJMZY13iMETRa1HG', NULL, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(2, 'Ahmad', 'petugas@gmail.com', NULL, '$2y$10$XlQjyiiFyjqXbXPKzI9nBeqandXk4IqTR9sgdIw3cxwrUuLDs3oT2', NULL, '2023-09-09 07:31:48', '2023-09-09 07:31:48'),
+(3, 'Panji', 'siswa@gmail.com', NULL, '$2y$10$CfzA6vH75vBaxBbfBArDBuDLEJDvRr/493tIaoRFx/1w1ttHHLn6a', NULL, '2023-09-09 07:31:48', '2023-09-09 07:31:48');
 
 --
 -- Indexes for dumped tables

@@ -37,7 +37,7 @@ class PermintaanController extends Controller
             'user_id' => 'required',
             'kelas_id' => 'required',
             'spp_id' => 'required',
-            'tanggal_bayar' => 'required',
+            // 'tanggal_bayar' => 'required',
             'bukti_pembayaran' => 'required',
             'status' => 'required',
         ]);
@@ -77,44 +77,48 @@ class PermintaanController extends Controller
         return view('permintaan.edit', compact('permintaans', 'users', 'kelas', 'spps'));
     }
 
-        // $inputPermintaan = $request->all();
-        // $request->validate([
-        //     'user_id' => 'required',
-        //     'kelas_id' => 'required',
-        //     'spp_id' => 'required',
-        //     'tanggal_bayar' => 'required',
-        //     'bukti_pembayaran' => 'required',
-        //     'status' => 'required',
-        // ]);
+    // $inputPermintaan = $request->all();
+    // $request->validate([
+    //     'user_id' => 'required',
+    //     'kelas_id' => 'required',
+    //     'spp_id' => 'required',
+    //     'tanggal_bayar' => 'required',
+    //     'bukti_pembayaran' => 'required',
+    //     'status' => 'required',
+    // ]);
 
-        // Find the Permintaan record and update it
-        // $permintaans = $this->validateFind($id);
-        // $this->validateReq($request, true);
+    // Find the Permintaan record and update it
+    // $permintaans = $this->validateFind($id);
+    // $this->validateReq($request, true);
 
-        // if ($request->hasFile('photo')) {
-        //     $path = 'uploads/bukti_pembayaran/' . $permintaans->bukti_pembayaran;
-        //     CommonFunction::deleteImage($path);
-        //     $file = $request->file('photo');
-        //     $extension = $file->getClientOriginalExtension();
-        //     $fileName = time() . '.' . $extension;
-        //     $file->move('uploads/bukti_pembayaran/', $fileName);
-        //     $inputPermintaan['bukti_pembayaran'] = $fileName;
-        // }
-        // $this->validateReq($request, true);
-        // $permintaans->update($inputPermintaan);
+    // if ($request->hasFile('photo')) {
+    //     $path = 'uploads/bukti_pembayaran/' . $permintaans->bukti_pembayaran;
+    //     CommonFunction::deleteImage($path);
+    //     $file = $request->file('photo');
+    //     $extension = $file->getClientOriginalExtension();
+    //     $fileName = time() . '.' . $extension;
+    //     $file->move('uploads/bukti_pembayaran/', $fileName);
+    //     $inputPermintaan['bukti_pembayaran'] = $fileName;
+    // }
+    // $this->validateReq($request, true);
+    // $permintaans->update($inputPermintaan);
 
-        // $bayarsekarang = BayarSekarang::where('id', $id)->first();
-        // if ($bayarsekarang) {
-        //     $bayarsekarang->update($inputPermintaan);
-        // }
+    // $bayarsekarang = BayarSekarang::where('id', $id)->first();
+    // if ($bayarsekarang) {
+    //     $bayarsekarang->update($inputPermintaan);
+    // }
 
-        // return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
+    // return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
 
-        public function update(Request $request, permintaan $permintaan, $id)
-        {
+    public function update(Request $request, permintaan $permintaan, $id)
+    {
+        $bayarsekarang = BayarSekarang::where('id', $id)->first();;
+        if ($bayarsekarang) {
+            $bayarsekarang->update($bayarsekarang);
+        }
         if (empty($request->file('bukti_pembayaran'))) {
             $permintaan::find($id)->update([
-                'tanggal_bayar' => $request->tanggal_bayar,
+                // 'tanggal_bayar' => $request->tanggal_bayar,
                 'status' => $request->status,
             ]);
             return redirect()->route('permintaan.index')->with('success', 'Sukses Update Data');
@@ -155,7 +159,7 @@ class PermintaanController extends Controller
         if ($isUpdate) {
             $req->validate(
                 [
-                    'tanggal_bayar' => 'required|date',
+                    // 'tanggal_bayar' => 'required|date',
                     'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                     'status' => 'required|string|in:paid,unpaid',
                 ]
@@ -163,7 +167,7 @@ class PermintaanController extends Controller
         } else {
             $req->validate(
                 [
-                    'tanggal_bayar' => 'required|date',
+                    // 'tanggal_bayar' => 'required|date',
                     'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|file|max:1024',
                     'status' => 'required|string|in:paid,unpaid',
                 ]

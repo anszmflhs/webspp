@@ -22,6 +22,16 @@ class SiswaController extends Controller
         }
         return view('siswa.index');
     }
+    public function indexs()
+    {
+        $siswas = Siswa::all();
+        return response()->json(
+            [
+                'status' => true,
+                'data' => $siswas,
+            ]
+        );
+    }
     public function create()
     {
         $siswa = Siswa::all();
