@@ -8,31 +8,31 @@
     <title>Home</title>
 
     <!-- AOS -->
-    <link href="/styles/aos.css" rel="stylesheet" />
+    <link href="{{ asset('/styles/aos.css') }}" rel="stylesheet" />
     <script src="/js/aos.js"></script>
 
     {{-- Bootstrap --}}
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/flaticon.css" />
-    <link rel="stylesheet" href="css/themify-icons.css" />
-    <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css" />
-    <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendors/owl-carousel/owl.carousel.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendors/nice-select/css/nice-select.css') }}" />
 
     <!-- ICONSCOUT -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/solid.css" />
+    <link rel="stylesheet" href="{{ asset('https://unicons.iconscout.com/release/v4.0.0/css/line.css') }}" />
+    <link rel="stylesheet" href="{{ asset('https://unicons.iconscout.com/release/v4.0.0/css/solid.css') }}" />
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="/styles/global.css" />
-    <link rel="stylesheet" href="/styles/index.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="{{ asset('/styles/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/styles/index.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
     <!-- Menu -->
     <script defer src="/js/menu.js"></script>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="{{ asset('https://fonts.googleapis.com') }}" />
+    <link rel="preconnect" href="{{ asset('https://fonts.gstatic.com') }}" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
 
